@@ -1,25 +1,7 @@
 
-<!-- 
-////////////////////////////////////////////////////////////////
-
-Author: Free-Template.co
-Author URL: http://free-template.co.
-License: https://creativecommons.org/licenses/by/3.0/
-License URL: https://creativecommons.org/licenses/by/3.0/
-Site License URL: https://free-template.co/template-license/
-  
-Website:  https://free-template.co
-Facebook: https://www.facebook.com/FreeDashTemplate.co
-Twitter:  https://twitter.com/Free_Templateco
-RSS Feed: https://feeds.feedburner.com/Free-templateco
-
-////////////////////////////////////////////////////////////////
--->
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
-    
      <!-- Icon Font Stylesheet -->
      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -101,7 +83,7 @@ RSS Feed: https://feeds.feedburner.com/Free-templateco
     </header>
 
 
-    <section class="site-section bg-light bg-image container-xxl position-relative bg-white d-flex p-0" id="admin-section">
+    <section class="site-section bg-light bg-image container-xxl position-relative bg-white d-flex p-0 mt-8" id="admin-section">
       <div class="container">
         <div class="row mb-5">
           <div class="col-12 text-center">
@@ -169,7 +151,7 @@ RSS Feed: https://feeds.feedburner.com/Free-templateco
           <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Riwayat Penjualan</h6>
+                    <h6 class="mb-0">Riwayat Reservasi</h6>
                     <th scope="col"><select class="form-select" id="floatingSelect" aria-label="Floating label select example">
                       <option selected>Filter</option>
                       <option value="1">One</option>
@@ -178,122 +160,37 @@ RSS Feed: https://feeds.feedburner.com/Free-templateco
                     </select></th>
                 </div>
                 <div class="table-responsive">
-                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0 d-grid">
                         <thead>
                             <tr class="text-dark">
-                            
-                                <th scope="col">id_reservasi</th>
-                                <th scope="col">Nama_penyewa</th>
-                                <th scope="col">Tipe_Gudang</th>
-                                <th scope="col">Asuransi</th>
-                                <th scope="col">Pengirim</th>
+
+                                <th scope="col">username</th>
+                                <th scope="col">email</th>
+                                <th scope="col">alamat</th>
+                                <th scope="col">notlp</th>
+                                <th scope="col" class="col-3">nama perusahaan</th>
                                 <th scope="col">Tanggal_reservasi</th>
-                                <th scope="col">Total_transaksi</th>
-                                <th colspan="3">Action</th>
+                                <th colspan="1">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>0021431</td>
-                                <td>esa</td>
-                                <td>Bersama</td>
-                                <td>1 thn</td>
-                                <td>JNG</td>
-                                <td>20-11-2023</td>
-                                <td>1.500.000</td>
-                                <td><a class="btn btn-sm btn-primary " href="">Edit</a></td>
-                                <td><a class="btn btn-sm btn-primary" href="">Hapus</a></td>
-                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
+                          @foreach ($users as $user)                    
+                          <tr>
+                              <td>{{ $user->nama }}</td>
+                              <td>{{ $user->email }}</td>
+                              <td>{{ $user->alamat }}</td>
+                              <td>{{ $user->notlp }}</td>
+                              <td>{{ $user->nama_toko }}</td>
+                              <td>{{ $user->tanggal_pengambilan }}</td> 
+                              <td><a class="btn btn-sm btn-primary" href="/admin/detail/{{ $user->nama }}">Detail</a></td>
                             </tr>
-                            <tr>
-                                <td>0021432</td>
-                                <td>1453214322</td>
-                                <td>7003433</td>
-                                <td>0000002</td>
-                                <td>5433332123</td>
-                                <td>21-11-2023</td>
-                                <td>1.000.000</td>
-                                <td><a class="btn btn-sm btn-primary" href="">Edit</a></td>
-                                <td><a class="btn btn-sm btn-primary" href="">Hapus</a></td>
-                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>0021433</td>
-                                <td>1453214323</td>
-                                <td>7003434</td>
-                                <td>0000003</td>
-                                <td>5433332124</td>
-                                <td>22-11-2023</td>
-                                <td>2.000.000</td>
-                                <td><a class="btn btn-sm btn-primary" href="">Edit</a></td>
-                                <td><a class="btn btn-sm btn-primary" href="">Hapus</a></td>
-                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                            </tr>
-                            <tr>
-                                <td>0021434</td>
-                                <td>1453214324</td>
-                                <td>7003435</td>
-                                <td>0000004</td>
-                                <td>5433332125</td>
-                                <td>23-11-2023</td>
-                                <td>3.000.000</td>
-                                <td><a class="btn btn-sm btn-primary" href="">Edit</a></td>
-                                <td><a class="btn btn-sm btn-primary" href="">Hapus</a></td>
-                                <td><a class="btn btn-sm btn-primary" href="">Detail</a></td>
-                            </tr>
+                            @endforeach
                            
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <!-- Recent Sales End -->
-
-                <!-- <input type="search" class="form-control" id="datatable-search-input" placeholder="Search">
-
-                    <table class="form-control">
-                    <tr>
-                        <th class="col-3">id_reservasi</th>
-                        <th class="col-3">id_pengiriman</th>
-                        <th class="col-3">id_wb</th>
-                        <th class="col-3">id_wk</th>
-                        <th class="col-3">id_asuransi</th>
-                        <th class="col-3">tgl_reservasi</th>
-                        <th class="col-3">total_reservasi</th>
-                        <th class="col-3">pilihan</th>
-                        <th class="col-3">
-                          <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                          <option selected>Filter</option>
-                          <option value="1">One</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                        </select></th>
-                       
-                    </tr>
-                
-                    <tr>
-                        <td class="col-3 p-3">0021431</td>
-                        <td class="col-3 p-3">1453214321</td>
-                        <td class="col-3 p-3">7003432</td>
-                        <td class="col-3 p-3">0000001</td>
-                        <td class="col-3 p-3">5433332123</td>
-                        <td class="col-3 p-3">20-11-2023</td>
-                        <td class="col-3 p-3">1.500.000</td>
-                        <td class="col-3 p-3">
-
-
-                    <tr>
-                        <td class="col-3 p-3">0021432</td>
-                        <td class="col-3 p-3">1453214322</td>
-                        <td class="col-3 p-3">7003433</td>
-                        <td class="col-3 p-3">0000002</td>
-                        <td class="col-3 p-3">5433332124</td>
-                        <td class="col-3 p-3">21-11-2023</td>
-                        <td class="col-3 p-3">1.000.000</td>
-                 
-                    </table> -->
-                
-                
               </div>
               
           </div>

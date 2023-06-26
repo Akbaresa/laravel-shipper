@@ -13,30 +13,24 @@ class gk_seeder extends Seeder
      */
     public function run(): void
     {
-        $wks = [
+        // $table->string("lokasi");
+        // $table->string("luas");
+        // $table->string("total_ruangan");
+        // $table->string("suhu");
+        // $table->string("harga_sewa");
+        $gks = [
             [
-                'lokasi' => 'gresik',
+                'lokasi' => 'JL KEBAGETAN, CIKARANG, JABAR',
+                'luas' => '1200 meter persegi',
+                'total_ruangan' => 22,
                 'suhu' => '24',
-                'tipe' => 'logistik',
-                'harga' => 19000,
-            ],
-            [
-                'lokasi' => 'sidoarjo',
-                'suhu' => '24',
-                'tipe' => 'bahan baku',
-                'harga' => 109201,
-            ],
-            [
-                'lokasi' => 'surabaya',
-                'suhu' => '30',
-                'tipe' => 'cross docking',
-                'harga' => 109201,
+                'harga_sewa' => 720000,
             ],
             // Tambahkan data produk lainnya sesuai kebutuhan
         ];
 
         // Insert data produk ke dalam tabel products
-        foreach ($wks as $wk) {
+        foreach ($gks as $wk) {
             gk::create($wk);
         }
     }

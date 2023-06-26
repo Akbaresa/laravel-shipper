@@ -2,14 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Auth\Events\Verified;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
+
 
 
 class VerificationController extends Controller
 {
-
+    public function notice()
+    {
+        return view('verify.resend');
+    }
+    public function verify(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+        // return "akun berhasil verif";
+        auth()->logout();
+        return view('verify.berhasil');
+    }
+    public function resend(Request $request){
+        $request->user()->sendEmailVerificationNotification();
+        return "email berhasil dikirim ulang";
+    }
 }
