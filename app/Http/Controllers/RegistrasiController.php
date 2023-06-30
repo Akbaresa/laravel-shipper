@@ -18,12 +18,6 @@ class RegistrasiController extends Controller
 
         ]);
     }
-    public function checkout(){
-         
-
-     
-    }
-
 
     public function store(Request $request)
     {
@@ -33,16 +27,9 @@ class RegistrasiController extends Controller
             'email' => ['required' , 'email' , 'unique:users'],
             'notlp' => ['required' , 'max:12' , 'unique:users'],
             'password' => ['required' ,'required_with:password_konfirmasi','same:password_konfirmasi'],
-            'password_konfirmasi' => [ 'min:5'],
             'role' => 'required'
         ]);
 
-
-
-        
-
-
-        //
         $validasiData['password'] = bcrypt($validasiData['password']);
         $user = User::create($validasiData);
 
@@ -60,7 +47,8 @@ class RegistrasiController extends Controller
         $reservasi->user_id = $userStore;
         $reservasi->save();
 
-        return redirect()->route('verification.notice')->with('succes' , 'Akun berhasil di registrasi! Silah kan verifikasi email anda');
+        return redirect()->route('verification.notice')
+        ->with('succes' , 'Akun berhasil di registrasi! Silah kan verifikasi email anda');
 
     }
 }

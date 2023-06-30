@@ -36,10 +36,7 @@ class GudangKhususController extends Controller
 
     public function store(Request $request)
     {
-      $request->request->add([
-        'status' => 'unpaid'
-      ]);
-    $validasiData = $request->validate([
+      $validasiData = $request->validate([
             'nama_toko' =>['required'  , 'max:255' ],
             'alamat_toko' => ['required'],
             'lokasi_pengambilan' => ['required' ],
@@ -50,54 +47,44 @@ class GudangKhususController extends Controller
             'gk_id' => ['required'],
         ]);
         $sewa = Sewa::create($validasiData);
-        $sewa_id = $sewa->id;
-         //mengisi reservasi 
-        $user_id = auth()->user()->id;
-        $reservasi = Reservasi::where('user_id', $user_id)->first();
+        $gudangKhusus = gudang_khusus::first();
+        
+        \Midtrans\Config::$serverKey = config('Midtrans.server_key');
+        \Midtrans\Config::$isProduction = false;
+        \Midtrans\Config::$isSanitized = true;
+        \Midtrans\Config::$is3ds = true;
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => $sewa->id ,
+                'gross_amount' => $gudangKhusus->harga_sewa,
+            ),
+            'customer_details' => array(
+                'first_name' => auth()->user()->nama,
+                'last_name' => "",
+                'email' =>auth()->user()->email,
+                'phone' => auth()->user()->notlp,
+            ),
+        );
+        $snapToken = Snap::getSnapToken($params);
+        return view('Users.kontrakGudangKhusus', [
+          'sewa' => $sewa,
+          'gk' => $gudangKhusus,
+          'snaptoken' => $snapToken
+        ]);
+    }
 
-        if ($reservasi) {
-          $reservasi->sewa_id = $sewa_id;
-          $reservasi->save();
+    public function callback(Request $request){
+      $serverKey = config('Midtrans.server_key');
+      $hashed = hash('sha512', $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
+
+      if($hashed == $request->signature_key){
+        if($request->transaction_status == 'capture'){
+          $order = Sewa::find($request->order_id);
+          $order->update(['status' => 'lunas']);
         }
-        return redirect()->route('gudang-khusus.sewa');
+      }
     }
 
-    public function sewa(){
-      $gudangKhusus = gudang_khusus::first();
-      $user_id = auth()->user()->id;
-      $sewa = Sewa::where('user_id', $user_id)->first();
-
-
-
-      \Midtrans\Config::$serverKey = config('Midtrans.server_key');
-      \Midtrans\Config::$isProduction = false;
-      \Midtrans\Config::$isSanitized = true;
-      \Midtrans\Config::$is3ds = true;
-      // $harga = DB::table('gudang_khususes')
-      //         ->select('harga_sewa')
-      //         ->first();
-      // $sewa_id = DB::table('sewas')
-      //         ->select('sewa_id');
-
-      $params = array(
-          'transaction_details' => array(
-              'order_id' => $user_id  ,
-              'gross_amount' => $gudangKhusus->harga_sewa,
-          ),
-          'customer_details' => array(
-              'name' => auth()->user()->nama,
-              'email' =>auth()->user()->email,
-              'phone' => auth()->user()->notlp,
-          ),
-      );
-      
-      $snapToken = Snap::getSnapToken($params);
-      return view('Users.kontrakGudangKhusus', [
-        'sewa' => $sewa,
-        'gk' => $gudangKhusus,
-        'snaptoken' => $snapToken
-      ]);
-    }
 
     public function cetak(){
       $currentDate = Carbon::today()->format('d-m-Y');

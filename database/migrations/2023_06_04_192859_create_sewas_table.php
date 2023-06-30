@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sewas', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(20);
             $table->foreignId('user_id');
             $table->foreignId('gk_id')->nullable();
             $table->string('nama_toko');
@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('total_berat');
             $table->string('tipe_barang');
             $table->date('tanggal_pengambilan');
-            $table->enum('status' , ['Unpaid' , 'Paid']);
+            $table->date('tgl_byr')->nullable();
+            $table->enum('status' , ['belum dibayar' , 'lunas']);
             $table->timestamps();
         });
     }

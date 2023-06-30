@@ -28,8 +28,9 @@ class SewaSeeder extends Seeder
                 'lokasi_pengambilan' => 'gresik',
                 'total_berat' => '>100kg',
                 'tipe_barang' => 'elektronik',
-                'tanggal_pengambilan' => '2023-06-11',
-                'status' => 'unpaid'
+                'tanggal_pengambilan' => '2023-06-30',
+                'tgl_byr' => '2023-06-30',
+                'status' => 'belum dibayar'
             ]
             // Tambahkan data produk lainnya sesuai kebutuhan
         ];

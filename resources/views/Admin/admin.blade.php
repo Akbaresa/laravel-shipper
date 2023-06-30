@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,23 +16,23 @@
     <link rel="shortcut icon" href="ftco-32x32.png">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,900|Oswald:300,400,700" rel="stylesheet">
-    <link rel="stylesheet" href="{{ ('fonts/icomoon/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('fonts/icomoon/style.css') }}">
 
-    <link rel="stylesheet" href="{{ ('css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ ('css/jquery-ui.css') }}">
-    <link rel="stylesheet" href="{{ ('css/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ ('css/owl.theme.default.min.css') }}">
-    <link rel="stylesheet" href="{{ ('css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
 
-    <link rel="stylesheet" href="{{ ('css/jquery.fancybox.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/jquery.fancybox.min.css') }}">
 
-    <link rel="stylesheet" href="{{ ('css/bootstrap-datepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.css') }}">
 
-    <link rel="stylesheet" href="{{ ('fonts/flaticon/font/flaticon.css') }}">
+    <link rel="stylesheet" href="{{ asset('fonts/flaticon/font/flaticon.css') }}">
 
-    <link rel="stylesheet" href="{{ ('css/aos.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/aos.css') }}">
 
-    <link rel="stylesheet" href="{{ ('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     
     
@@ -91,16 +90,19 @@
             <h2 class="section-title mb-3">Reservasi</h2>
           </div>
         </div>
+        <form action="{{ route('admin.search') }}" method="post">
+          @csrf
+        <div class=" col-md-5 align-content-md-end">
+          <div class="input-group">
+            <input type="search" name="search" class="form-control" placeholder="Cari..." aria-label="Cari">
+              <button class="btn btn-outline-primary" type="submit">
+                <i class="bi bi-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
         <div class="row">
           <div class="col-md-12 mb-5">
-
-            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-              <form class="d-none d-md-flex ms-4">
-                  <input class="form-control border-0" type="search" placeholder="Search">
-              </form>  
-            </nav>
-  
-
             <div class="form-outline mb-4">
               <!-- Sale & Revenue Start -->
             <div class="container-fluid pt-4 px-4">
@@ -109,8 +111,8 @@
                       <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                           <i class="fa fa-chart-line fa-3x text-primary"></i>
                           <div class="ms-3">
-                              <p class="mb-2">Penjualan Hari Ini</p>
-                              <h6 class="mb-0">4 Blok</h6>
+                              <p class="mb-2">Total Akun</p>
+                              <h6 class="mb-0">{{ $total_users . " Akun" }}</h6>
                           </div>
                       </div>
                   </div>
@@ -118,8 +120,8 @@
                       <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                           <i class="fa fa-chart-bar fa-3x text-primary"></i>
                           <div class="ms-3">
-                              <p class="mb-2">Total Penjualan</p>
-                              <h6 class="mb-0">140 blok</h6>
+                              <p class="mb-2">Total Sewa</p>
+                              <h6 class="mb-0">{{ $total_sewa . " Sewa" }}</h6>
                           </div>
                       </div>
                   </div>
@@ -127,7 +129,7 @@
                       <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
                           <i class="fa fa-chart-area fa-3x text-primary"></i>
                           <div class="ms-3">
-                              <p class="mb-2">Pendapatan Hari Ini</p>
+                              <p class="mb-2">Uang masuk Hari Ini</p>
                               <h6 class="mb-0">Rp.5.000.000</h6>
                           </div>
                       </div>
@@ -151,13 +153,7 @@
           <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Riwayat Reservasi</h6>
-                    <th scope="col"><select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                      <option selected>Filter</option>
-                      <option value="1">One</option>
-                      <option value="2">Two</option>
-                      <option value="3">Three</option>
-                    </select></th>
+                    <h6 class="mb-0">Riwayat Akun Sewa</h6>
                 </div>
                 <div class="table-responsive">
                     <table class="table text-start align-middle table-bordered table-hover mb-0 d-grid">
@@ -266,20 +262,20 @@
 
   <a href="#top" class="gototop"><span class="icon-angle-double-up"></span></a> 
 
-  <script src="{{ ('js/jquery-3.3.1.min.js') }}"></script>
-  <script src="{{ ('js/jquery-ui.js') }}"></script>
-  <script src="{{ ('js/popper.min.js') }}"></script>
-  <script src="{{ ('js/bootstrap.min.js') }}"></script>
-  <script src="{{ ('js/owl.carousel.min.js') }}"></script>
-  <script src="{{ ('js/jquery.countdown.min.js') }}"></script>
-  <script src="{{ ('js/bootstrap-datepicker.min.js') }}"></script>
-  <script src="{{ ('js/jquery.easing.1.3.js') }}"></script>
-  <script src="{{ ('js/aos.js') }}"></script>
-  <script src="{{ ('js/jquery.fancybox.min.js') }}"></script>
-  <script src="{{ ('js/jquery.sticky.js') }}"></script>
+  <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+  <script src="{{ asset('js/jquery-ui.js') }}"></script>
+  <script src="{{ asset('js/popper.min.js') }}"></script>
+  <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+  <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
+  <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+  <script src="{{ asset('js/jquery.easing.1.3.js') }}"></script>
+  <script src="{{ asset('js/aos.js') }}"></script>
+  <script src="{{ asset('js/jquery.fancybox.min.js') }}"></script>
+  <script src="{{ asset('js/jquery.sticky.js') }}"></script>
 
   
-  <script src="{{ ('js/main.js') }}"></script>
+  <script src="{{ asset('js/main.js') }}"></script>
 
   
     
