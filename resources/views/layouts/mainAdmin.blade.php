@@ -59,7 +59,7 @@
                 <li><a href="/#gudang-section" class="nav-link text-black">Gudang</a></li>
                 <li><a href="/#about-section" class="nav-link text-black">About</a></li>
                 <li><a href="/#contact-section" class="nav-link text-black">Contact</a></li>
-                <li><a href="" class="nav-link text-success">Login</a></li>
+                <li><a href="/Admin" class="nav-link text-success">Dasboard</a></li>
               </ul>
             </nav>
           </div>

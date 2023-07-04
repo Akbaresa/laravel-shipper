@@ -5,8 +5,8 @@
         <div class="container">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-5 mx-auto mt-lg-5 text-center">
-              <h1>Jl kebagetan, Cikarang, JABAR</h1>
-              <p class="mb-5"><strong class="text-white">Rp.1.800.000.000/Bulan</strong></p>
+              <h1>{{ $gudang->lokasi }}</h1>
+              <p class="mb-5"><strong class="text-white"></strong></p>
               
             </div>
           </div>
@@ -22,21 +22,21 @@
           <div class="row">
             <div class="col-lg-7">
               <div class="owl-carousel slide-one-item with-dots">
-                <div><img src="images/potrait_gudang_khusus_2.jpg" alt="Image" class="img-fluid img-box"></div>
-                <div><img src="images/property_2.jpg" alt="Image" class="img-fluid"></div>
-                <div><img src="images/property_3.jpg" alt="Image" class="img-fluid"></div>
+                <div><img src="{{ asset('images/potrait_gudang_khusus_2.jpg') }}" alt="Image" class="img-fluid img-box"></div>
+                <div><img src="{{ asset('images/property_2.jpg') }}" alt="Image" class="img-fluid"></div>
+                <div><img src="{{ asset('images/property_3.jpg') }}" alt="Image" class="img-fluid"></div>
               </div>
             </div>
             <div class="col-lg-5 pl-lg-5 ml-auto">
               <div class="mb-5">
-                <h3 class="text-black mb-4">Gudang Khusus Detail</h3>
-                <p>140 Rak, 4 Ruangan, 120m persegi.</p>
-                <p>Kami memiliki gudang penyewaan yang luas dan modern yang terletak di JL Kebagetsan, Cikarang, Jawa Barat. Gudang ini memiliki luas sekitar 2000 meter persegi dan dilengkapi dengan fasilitas keamanan yang terdepan, termasuk sistem pemantauan CCTV 24 jam dan akses kontrol yang ketat.</p>
+                <h3 class="text-black mb-4">{{ $gudang->nama }}</h3>
+                <p> {{ $gudang->total_ruangan }} ruangan, {{ $gudang->luas }}.</p>
+                <p>Kami memiliki gudang penyewaan yang luas dan modern yang terletak {{ $gudang->lokasi }}. Gudang ini memiliki luas sekitar {{ $gudang->luas }} dan dilengkapi dengan fasilitas keamanan yang terdepan, termasuk sistem pemantauan CCTV 24 jam dan akses kontrol yang ketat.</p>
                 <p>Gudang kami memiliki struktur yang kokoh dan ruang yang fleksibel, cocok untuk menyimpan inventaris bisnis, barang dagangan, atau peralatan industri. Di dalamnya terdapat ruang kantor yang terpisah untuk kegiatan administrasi dan pertemuan.
                 </p>
-                <p class="mb-4">Selain itu, lokasi strategis di JL Kebagetsan memudahkan aksesibilitas ke pusat bisnis dan pelabuhan terdekat. Anda dapat dengan mudah mengatur pengiriman dan pengambilan barang dengan cepat dan efisien.</p>
+                <p class="mb-4">Selain itu,  memudahkan aksesibilitas ke pusat bisnis dan pelabuhan terdekat. Anda dapat dengan mudah mengatur pengiriman dan pengambilan barang dengan cepat dan efisien.</p>
                 @auth
-                <p><a href="/gudang-khusus/sewa" class="btn btn-primary">Sewa Gedung</a></p>
+                <p><a href="{{ route('tipe-gudang.sewa-gudang', ['TipeGudang' =>$slug  , 'gudangKhusus' => $gudang->slug] ) }}" class="btn btn-primary">Sewa Gedung</a></p>
                 @else    
                 <p><a href="/login" class="btn btn-primary">Sewa Gedung</a></p>
                 @endauth
@@ -45,7 +45,7 @@
               <div class="mb-5">
                 
                 <div class="mt-5">
-                  <img src="images/teguh.jpg" alt="Image" class="w-25 mb-3 rounded-circle">
+                  <img src="{{ asset('images/teguh.jpg') }}" alt="Image" class="w-25 mb-3 rounded-circle">
                   <h4 class="text-black">Teguh Firdaus</h4>
                   <p class="text-muted mb-4">Sales gudang yang berpengalaman</p>
                   <p>Jika anda bingung akan gudang khusus itu apa untuk mengetahui nya dengan lanjut anda bisa chat sales kita , pertanyaan pertanyaan anda akan dijawab oleh sales kita yang sudah berpengalaman pada bidangnya</p>

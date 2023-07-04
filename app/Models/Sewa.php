@@ -17,6 +17,6 @@ class Sewa extends Model
         return $this->belongsTo(User::class);
     }
     public function gudang_khusus(){
-        return $this->belongsTo(gudang_khusus::class);
+        return $this->belongsTo(gudangKhusus::class);
     }
 }

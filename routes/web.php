@@ -58,8 +58,14 @@ Route::get('/registrasi', [RegistrasiController::class , 'show'])->middleware('g
 Route::post('/registrasi', [RegistrasiController::class , 'store'])->name('user.store');
 
 // gudang-khusus
-Route::get('/gudang-khusus', [GudangKhususController::class , 'index']);
-Route::get('/gudang-khusus/sewa', [GudangKhususController::class , 'show']);
+// Route::get('/gudang-khusus', [GudangKhususController::class , 'index']);
+Route::get('/tipe-gudang-khusus', [GudangKhususController::class , 'showTipe']);
+Route::get('/tipe-gudang-khusus/{TipeGudang:slug}', [GudangKhususController::class , 'detailTipeGudang'])->name('tipe-gudang.detail');
+Route::get('/tipe-gudang-khusus/{gudangKhusus:slug}/{TipeGudang:slug}', [GudangKhususController::class , 'index'])->name('tipe-gudang.sewa');
+
+Route::get('/tipe-gudang-khusus/{gudangKhusus:slug}/{TipeGudang:slug}/sewa', [GudangKhususController::class , 'show'])->name('tipe-gudang.sewa-gudang');
+
+
 Route::post('/gudang-khusus/sewa', [GudangKhususController::class , 'store'])->name('gudang-khusus.store');
 Route::get('/gudang-khusus/sewa/cetak', [GudangKhususController::class , 'sewa'])->name('gudang-khusus.sewa');
 Route::get('/gudang-khusus/{id}/cetakKontrak', [GudangKhususController::class , 'cetak'])->middleware('auth')->name('gudang-khusus.cetak');
@@ -69,3 +75,5 @@ Route::get('/gudang-bersama' , [GudangBersamaController::class , 'index'])->name
 -bersama.index');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/try', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

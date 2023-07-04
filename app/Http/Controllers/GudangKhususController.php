@@ -3,32 +3,42 @@
 namespace App\Http\Controllers;
 use App\Models\Reservasi;
 use App\Models\Sewa;
-use App\Models\gudang_khusus;
+use App\Models\gudangKhusus;
+use App\Models\TipeGudang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Midtrans\Config;
 use Midtrans\Snap;
 
+
+
 class GudangKhususController extends Controller
 {
     
-    public function index(){
-        $branches = gudang_khusus::all();
+    public function index($id, TipeGudang $TipeGudang){
+      $slug = $TipeGudang->slug;
+      $gudang = gudangKhusus::where('slug', $id)->first();
+        $branches = gudangKhusus::all();
         $apiWa = "https://api.whatsapp.com/send?phone=+62812-3598-1551&text=";
         if(auth()){
           $chatCust = $apiWa . "Halo,%20perkenalkan%20nama%20saya%20" . auth()?->user()?->nama.  "%20saya%20mencari%20gudang untuk%20disewa";
         }
         return view('Users.gudangKhusus', [
           'chat' => $chatCust,
-          'branches' => $branches
+          'branches' => $branches,
+          'gudang' => $gudang,
+          'slug' => $slug,
         ]);
     }
 
-    public function show(){
-      $gudangKhusus = gudang_khusus::first();
+    public function show($id , TipeGudang $TipeGudang){
+      $slug = $TipeGudang->slug;
+      $gudang = gudangKhusus::where('slug', $id)->first();
+      $gudangKhusus = gudangKhusus::first();
       return view('Users.sewaGudangKhusus',[
-        "gks" => $gudangKhusus
+        "gks" => $gudang,
+        'slug' => $slug,
       ]);
     }
 
@@ -47,8 +57,9 @@ class GudangKhususController extends Controller
             'gk_id' => ['required'],
         ]);
         $sewa = Sewa::create($validasiData);
-        $gudangKhusus = gudang_khusus::first();
-        
+        $gk_id = $request->gk_id;
+        $gudang = gudangKhusus::where('id', $gk_id)->first();
+
         \Midtrans\Config::$serverKey = config('Midtrans.server_key');
         \Midtrans\Config::$isProduction = false;
         \Midtrans\Config::$isSanitized = true;
@@ -56,7 +67,7 @@ class GudangKhususController extends Controller
         $params = array(
             'transaction_details' => array(
                 'order_id' => $sewa->id ,
-                'gross_amount' => $gudangKhusus->harga_sewa,
+                'gross_amount' => $gudang->harga_sewa,
             ),
             'customer_details' => array(
                 'first_name' => auth()->user()->nama,
@@ -68,7 +79,7 @@ class GudangKhususController extends Controller
         $snapToken = Snap::getSnapToken($params);
         return view('Users.kontrakGudangKhusus', [
           'sewa' => $sewa,
-          'gk' => $gudangKhusus,
+          'gk' => $gudang,
           'snaptoken' => $snapToken
         ]);
     }
@@ -76,11 +87,14 @@ class GudangKhususController extends Controller
     public function callback(Request $request){
       $serverKey = config('Midtrans.server_key');
       $hashed = hash('sha512', $request->order_id.$request->status_code.$request->gross_amount.$serverKey);
-
+      $currentDate = Carbon::today()->format('Y-m-d');
       if($hashed == $request->signature_key){
         if($request->transaction_status == 'capture'){
           $order = Sewa::find($request->order_id);
-          $order->update(['status' => 'lunas']);
+          $order->update([
+            'status' => 'lunas',
+            'tgl_byr' => $currentDate
+          ]);
         }
       }
     }
@@ -91,12 +105,39 @@ class GudangKhususController extends Controller
       $nextWeek = Carbon::today()->addDays(7)->toDateString();
       $user_id = auth()->user()->id;
       $sewa = Sewa::where('user_id', $user_id)->first();
-      $gudangKhusus = gudang_khusus::first();
+      $gudangKhusus = gudangKhusus::first();
       return view('Users.cetakForm', [
         'currentDate' => $currentDate ,
         'nextWeek' => $nextWeek,
         'sewa' => $sewa,
         'gks' => $gudangKhusus
       ]);
+    }
+
+    public function showTipe(){
+      $tipeGudangs = TipeGudang::all();
+      return view('gudang.tipeGudangKhusus',[
+        'tipeGudangs' => $tipeGudangs
+      ]);
+    }
+
+    public function detailTipeGudang(TipeGudang $TipeGudang){
+      $slug = $TipeGudang->slug;
+      $tipeGudangs = DB::table('gudang_khususes')
+      ->leftJoin('tipe_gudangs', 'tipe_gudangs.id', '=', 'gudang_khususes.tipe_gk_id')
+      ->select('gudang_khususes.lokasi', 'gudang_khususes.harga_sewa', 'gudang_khususes.nama' ,
+      'gudang_khususes.total_ruangan', 'gudang_khususes.suhu' , 'gudang_khususes.luas', 'gudang_khususes.slug')
+      ->where('tipe_gudangs.slug', $TipeGudang->slug)
+      ->get();
+      $allTipe = TipeGudang::all();
+      
+      return view('gudang.detailTipe',[
+        'gudangs' => $tipeGudangs,
+        'slug' => $slug,
+        'allGudang' => $allTipe
+      ]);
+    }
+    public function formatRupiah($nilai){
+      return 'Rp ' . number_format($nilai, 0, ',', '.');
     }
 }

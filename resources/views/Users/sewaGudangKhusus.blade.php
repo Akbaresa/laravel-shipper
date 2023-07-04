@@ -6,7 +6,7 @@
           <div class="row align-items-center justify-content-center">
             <div class="col-md-5 mx-auto mt-lg-5 text-center">
               <h1>{{ $gks->lokasi }}</h1>
-              <p class="mb-5"><strong class="text-white">{{ $gks->harga_sewa }}</strong></p>
+              <p class="mb-5"><strong class="text-white">{{ $gks->nama }}</strong></p>
               
             </div>
           </div>
@@ -91,9 +91,8 @@
               <input type="hidden" name="tag" id="selectedTag" name="tipe_barang">
                 </div>
 
-
+                <input type="hidden" value="{{ $gks->id }}" name="gk_id">
                 <input type="hidden" value="{{ Auth::user()->id}}" name="user_id">
-                <input type="hidden" value=1 name="gk_id">
                 <div class="d-flex align-items-center justify-content-between  pb-4">
                   <button type="submit" class="btn btn-outline-danger w-100">SEWA</button>
                 </div>

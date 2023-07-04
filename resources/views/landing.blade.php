@@ -46,15 +46,15 @@
       <div class="container">
         <div class="row mb-5">
           <div class="col-12 text-center">
-            <h2 class="section-title mb-3">Tipe Gudang</h2>
+            <h2 class="section-title mb-3">Jenis Gudang</h2>
           </div>
         </div>
 
         <div class="row justify-content-center d-flex mx-auto align-items-center">
           <div class="col-md-6 col-lg-5 mb-4 mb-lg-4">
             <div class="h-entry">
-              <a href="/gudang-khusus"><img src="images/gudang_khusus.png" alt="Free website template by Free-Template.co" class="img-fluid"></a>
-              <h2 class="font-size-regular"><a href="/gudang-khusus" class="text-dark">Gudang Khusus</a></h2>
+              <a href="/tipe-gudang-khusus"><img src="images/gudang_khusus.png" alt="Free website template by Free-Template.co" class="img-fluid"></a>
+              <h2 class="font-size-regular"><a href="/tipe-gudang-khusus" class="text-dark">Gudang Khusus</a></h2>
               <p>Anda dapat menggunakan seluruh kapasitas dan operasional gudang sesuai dengan kebutuhan anda.</p>
             </div> 
           </div>

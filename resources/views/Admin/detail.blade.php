@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.mainAdmin')
 @section('content')
 
 <section class="site-section bg-light bg-image container-xxl position-relative bg-white d-flex p-0" id="DetailTransaksi-section">
@@ -14,6 +14,12 @@
           <div class="form-outline mb-4">
               <div class="col-12">
                   <div class="bg-light rounded h-100 p-4">
+                    <form action="{{ route('admin.update', [ 
+                        'user' => $user->id , 
+                        'sewa' => $sewa->id] )  
+                    }}" method="POST" >
+                        @csrf
+                        @method('PUT')
                       <h6 class="mb-4">User</h6>
                       <div class="table-responsive">
                           <table class="table">
@@ -56,7 +62,6 @@
 
                               </tbody>
                           </table>
-                          
                             <h6 class="mb-4">Sewa</h6>
                             <div class="table-responsive">
                                 <table class="table">
@@ -68,6 +73,7 @@
                                             <th scope="col">lokasi pengambilan</th>
                                             <th scope="col">tanggal pengambilan</th>
                                             <th scope="col">status pembayaran</th>
+                                            <th scope="col">tanggal pembayaran</th>
                                             
                                         </tr>
                                     </thead>
@@ -110,6 +116,12 @@
                                                   {{ $sewa->status }}
                                               </button>
                                           </td>
+                                          <td>
+                                              <button id="tgl_byr" type="button" class="noBorder" onclick="convertToInput('tgl_byr', 
+                                              '{{ $sewa->tgl_byr }}')">
+                                                  {{ $sewa->tgl_byr }}
+                                              </button>
+                                          </td>
                                         </tr>
                                     </tbody>
                                   
@@ -118,12 +130,6 @@
                                   <button type="button" class="btn btn-primary" onclick="showConfirmationPopup()">simpan perubahan</button>
                                   <button class="btn btn-sm btn-danger" href="" type="button" onclick="showDeletePopup()">delete</button>
                                 </div>
-                                <form action="{{ route('admin.update', [ 
-                                    'user' => $user->id , 
-                                    'sewa' => $sewa->id] )  
-                                }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    @method('PUT')
                                 <div id="confirmationPopup" class="popup">
                                     <div class="popup-content">
                                       <h5>Anda yakin ingin mengupdate data tersebut?</h5>
@@ -192,140 +198,7 @@
               <div class="col-12">
                  
       </div>  
-</div>
-
-<div class="form-outline mb-4">
-  <div class="col-12">
-      <div class="bg-light rounded h-100 p-4">
-          <h6 class="mb-4">Rak</h6>
-          <div class="table-responsive">
-              <table class="table">
-                  <thead>
-                      <tr>
-                          <th scope="col"></th>
-                          <th scope="col">tipe_rak</th>
-                          <th scope="col">lokasi_rak</th>
-                          <th scope="col">ukuran_rak</th>
-                          <th scope="col">harga</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <th scope="row">1</th>
-                          <td>Dingin</td>
-                          <td>A0001</td>
-                          <td>50 x 50 x 50 cm</td>
-                          <td>50.000</td>
-                     
-                      </tr>
-                  </tbody>
-              </table>
-              <div class="text-right">
-              </div>
-              
-          </div>
-      </div>
-  </div>
-</div>
-<div class="form-outline mb-4">
-  <div class="col-12">
-      <div class="bg-light rounded h-100 p-4">
-          <h6 class="mb-4">Barang</h6>
-          <div class="table-responsive">
-              <table class="table">
-                  <thead>
-                      <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">nama_barang</th>
-                          <th scope="col">jumlah</th>
-                          <th scope="col">ukuran</th>
-                          <th scope="col">tipe</th>
-                          <th scope="col">berat</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <th scope="row">1</th>
-                          <td>Kompor</td>
-                          <td>10</td>
-                          <td>100 x 50 cm</td>
-                          <td>Tidak Mudah Pecah</td>
-                          <td>250 kg</td>
-                     
-                      </tr>
-                      <tr>
-                          <th scope="row">2</th>
-                          <td>Gelas</td>
-                          <td>40</td>
-                          <td>10 x 5 cm</td>
-                          <td>Mudah Pecah</td>
-                          <td>20 kg</td>
-                         
-                      </tr>
-                      <tr>
-                          <th scope="row">3</th>
-                          <td>Tv</td>
-                          <td>20</td>
-                          <td>123 x 70 cm</td>
-                          <td>Mudah Pecah</td>
-                          <td>40 kg</td>
-                         
-                      </tr>
-                  </tbody>
-              </table>
-              
-          </div>
-      </div>
-  </div>
-</div>
-
-<div class="form-outline mb-4">
-  <div class="col-12">
-      <div class="bg-light rounded h-100 p-4">
-          <h6 class="mb-4">Pengirim</h6>
-          <div class="table-responsive">
-              <table class="table">
-                  <thead>
-                      <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">nama_pegirim</th>
-                          <th scope="col">tipe_pengirim</th>
-                          <th scope="col">tanggal_pengiriman</th>
-                          <th scope="col">harga</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <th scope="row">1</th>
-                          <td>Rudi</td>
-                          <td>Doe</td>
-                          <td>2023-05-22 09:00:00</td>
-                          <td>Rp. 50.000</td>
-                     
-                      </tr>
-                      <tr>
-                          <th scope="row">2</th>
-                          <td>Mark</td>
-                          <td>Doe</td>
-                          <td>2023-05-22 15:00:00</td>
-                          <td>Rp. 100.000</td>
-                         
-                      </tr>
-                      <tr>
-                          <th scope="row">3</th>
-                          <td>Jacob</td>
-                          <td>Doe</td>
-                          <td>2023-06-22 10:00:00</td>
-                          <td>Rp. 170.000</td>
-
-                      </tr>
-                  </tbody>
-              </table>
-          </div>
-      </div>
-  </div>
-</div>
-  
+</div> 
       </div>
     </div>
   </section>

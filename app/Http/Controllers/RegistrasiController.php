@@ -37,15 +37,8 @@ class RegistrasiController extends Controller
         $request = session();
         $request->flash('berhasil', 'Registrasi Berhasil! Silahkan verifikasi email');
 
-        // return redirect('/login')->with('berhasil', 'Registrasi Berhasil! Silahkan login');
-
         event(new Registered($user));
         //mengisi reservasi 
-        auth()->login($user);
-        $userStore = auth()->id();
-        $reservasi = new Reservasi();
-        $reservasi->user_id = $userStore;
-        $reservasi->save();
 
         return redirect()->route('verification.notice')
         ->with('succes' , 'Akun berhasil di registrasi! Silah kan verifikasi email anda');

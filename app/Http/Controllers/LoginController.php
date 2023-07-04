@@ -23,7 +23,7 @@ class LoginController extends Controller
         if (Auth::attempt($credential)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/');
         } if ($request->user() instanceof MustVerifyEmail && !$request->user()->hasVerifiedEmail()) {
             return $request->expectsJson()
                 ? abort(403, 'Your email address is not verified.')
