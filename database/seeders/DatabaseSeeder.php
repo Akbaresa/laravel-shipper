@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
         $this->call(gk_seeder::class);
         $this->call(UserSeeder::class);
         $this->call(SewaSeeder::class);
+        $this->call(BarangSeeder::class);
+        $this->call(RakSeeder::class);
+        $this->call(TipeGudangSeeder::class);
         
     }
 }

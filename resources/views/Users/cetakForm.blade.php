@@ -24,6 +24,7 @@
     <p>Nama            : {{ $sewa->user->nama }}</p>
     <p>Alamat          :{{ $sewa->user->alamat }}</p>
     <p>email           :{{ $sewa->user->email }}</p>
+    <p>status pembayaran :{{ $sewa->status }}</p>
     <p>hal ini bertindak atas nama {{ $sewa->nama_toko }} yang selanjutnya dalam perjanjian akan disebut pihak pertama yang beralamat {{ $sewa->alamat_toko }}</p>
     <p>Kedua belah pihak dengan ini telah sepakat untuk mengikatkan diri dalam perjanjian penyewaan gudang dengan syarat dan ketentuan sebagai berikut:</p>
     <h5>Pasal 1 – Obyek Perjanjian</h5>

@@ -15,6 +15,10 @@ return new class extends Migration
          Schema::create('gudang_khususes', function (Blueprint $table) {
              $table->id();
              $table->string("lokasi");
+             $table->string("nama");
+             $table->string("slug");
+             $table->string("gambar");
+             $table->foreignId("tipe_gk_id");
              $table->string("luas");
              $table->integer("total_ruangan");
              $table->string("suhu");
