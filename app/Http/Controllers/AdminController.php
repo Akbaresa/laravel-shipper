@@ -4,53 +4,21 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Sewa;
 use App\Models\gudangKhusus;
+use App\Models\Admin;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 class AdminController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request , Admin $admin)
     {
-        $users = DB::table('users')
-        ->leftJoin('sewas', 'users.id', '=', 'sewas.user_id')
-        ->select('users.nama', 'users.alamat', 'users.notlp' , 'users.email', 'sewas.nama_toko',
-        'sewas.alamat_toko', 'sewas.tanggal_pengambilan' , 'sewas.created_at')
-        ->where('users.role', 'user')
-        ->paginate(5);
-        
-        if ($request->has('search')){
-            $users = DB::table('users')
-            ->leftJoin('sewas', 'users.id', '=', 'sewas.user_id')
-            ->select('users.nama', 'users.alamat', 'users.notlp' , 'users.email', 'sewas.nama_toko',
-            'sewas.alamat_toko', 'sewas.tanggal_pengambilan' , 'sewas.created_at')
-            ->where('users.role', 'user')
-            ->where('nama', 'LIKE' , '%' . $request->search . '%')
-            ->paginate(5);
-        }else {
-            $users = DB::table('users')
-            ->leftJoin('sewas', 'users.id', '=', 'sewas.user_id')
-            ->select('users.nama', 'users.alamat', 'users.notlp' , 'users.email', 'sewas.nama_toko',
-            'sewas.alamat_toko', 'sewas.tanggal_pengambilan' , 'sewas.created_at')
-            ->where('users.role', 'user')
-            ->paginate(5);
-        }
-
-        $total_users = User::where('users.role', 'user')
-        ->count();
+        $users = $admin->searchUsers($request);
+        $total_users = $admin->totalUsers();
         $currentDate = Carbon::today()->format('Y-m-d');
-        $total_sewa = Sewa::count();
-        $uangToday = DB::table('sewas')
-        ->leftJoin('gudang_khususes', 'gudang_khususes.id', '=', 'sewas.gk_id')
-        ->where('sewas.tgl_byr' , $currentDate)
-        ->count();
-        $sewa_today = DB::table('sewas')
-        ->leftJoin('gudang_khususes', 'gudang_khususes.id', '=', 'sewas.gk_id')
-        ->where('sewas.tgl_byr', $currentDate)
-        ->value('gudang_khususes.harga_sewa');
-        $sewa_all = DB::table('sewas')
-        ->leftJoin('gudang_khususes', 'gudang_khususes.id', '=', 'sewas.gk_id')
-        ->where('sewas.status', 'lunas')
-        ->value('gudang_khususes.harga_sewa');
+        $total_sewa = $admin->totalAkunSewa();
+        $uangToday  = $admin->uangToday($currentDate);
+        $sewa_today = $admin->sewaToday($currentDate);
+        $sewa_all = $admin->sewaAll();
         $t_uang_today = $uangToday * $sewa_today;
         $pendapatanAll = $total_sewa * $sewa_all;
         $uangToday = $this->formatRupiah($t_uang_today);
@@ -61,7 +29,7 @@ class AdminController extends Controller
             'currentDate' => $currentDate,
             'total_sewa'=> $total_sewa,
             'uang_today' => $uangToday,
-            'pendapatanAll' => $pendapatanAll
+            'pendapatanAll' => $pendapatanAll,
         ]));
         
     }
@@ -76,33 +44,17 @@ class AdminController extends Controller
         if ( auth()->user()->role === 'admin') {
             return route('Admin');
         }else{
-            return view('landing');
+            return view('/');
         }
         abort(403, 'Unauthorized'); // Jika pengguna bukan admin, lempar HTTP 403 Forbidden Error
     }
 
 
-    public function detail(User $user)  {
-        
-        $users = DB::table('users')
-        ->select('nama', 'alamat', 'notlp', 'email' , 'id')
-        ->where('users.role', 'user')
-        ->where('users.nama', $user->nama)
-        ->first();
-        
-        $sewa = DB::table('sewas')
-        ->select('nama_toko', 'id' , 'alamat_toko' , 'tanggal_pengambilan',
-        'lokasi_pengambilan', 'tipe_barang', 'total_berat', 'status' , 'tgl_byr' , 'gk_id'
-        )
-        ->where('user_id', $user->id)
-        ->first();
-        
-        $gudang = GudangKhusus::select('lokasi', 'suhu', 'harga_sewa', 'total_ruangan', 'luas')
-        ->where('id', $sewa->gk_id)
-        ->first();
-       
+    public function detail(User $user, Admin $admin)  {
+        $users = $admin->detailUsers($user);
+        $sewa = $admin->detailSewa($user);
+        $gudang = $admin->detailGudang($sewa);
 
-        
         return view('Admin.detail' , [
             'user' => $users,
             'sewa' => $sewa,
@@ -110,20 +62,17 @@ class AdminController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id){
-       $sewa_id = $request->input('sewa');
-    
-        $user = User::findOrFail($id);
+    public function update(Request $request, $id , Admin $admin) {
+        $sewa_id = $admin->getInputSewa($request);
+        $userId = $admin->getUserId($id);
+        $updateUser = $admin->updateUser($request , $userId);
+        $sewaId = $admin->getSewaId($sewa_id);
+        $updateSewa = $admin->updateSewa($request , $sewaId);
         
-        $updateUser = $user->update($request->all());
-        
-        $sewa = Sewa::findOrFail($sewa_id);
-
-        $updateSewa = $sewa->update($request->all());
         if ($updateSewa or $updateUser){            
-            return redirect(route('admin.detail', $user->nama))
+            return redirect(route('admin.detail', $userId->nama))
             ->with('succes', 'berhasil update');
-        };
+        }
         
     }
     public function delete($id){

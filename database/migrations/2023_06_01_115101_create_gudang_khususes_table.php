@@ -17,6 +17,7 @@ return new class extends Migration
              $table->string("lokasi");
              $table->string("nama");
              $table->string("slug");
+             $table->string("gambar");
              $table->foreignId("tipe_gk_id");
              $table->string("luas");
              $table->integer("total_ruangan");

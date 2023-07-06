@@ -1,7 +1,7 @@
 @extends('layouts.main_nav')
 @section('content')
 
-    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url({{ asset('images/gudang_khusus_3.jpg') }});" data-aos="fade">
+    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url({{ asset($gk->gambar) }});" data-aos="fade">
         <div class="container">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-5 mx-auto mt-lg-5 text-center">
@@ -43,7 +43,9 @@
                                 // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
                                 window.snap.pay('{{ $snaptoken }}', {
                                   onSuccess: function(result){
+                                    
                                     /* You may add your own implementation here */
+                                    window.location.href = '/invoice/{{ $idHash }}';
                                     alert("payment success!"); console.log(result);
                                   },
                                   onPending: function(result){

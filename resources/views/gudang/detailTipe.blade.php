@@ -20,14 +20,14 @@
         @foreach ($gudangs as $gudang)
         <div class="mt-5">
           <div class="card" style="width: 30rem">
-            <img src="{{ asset('images/resend_1.jpg')  }}" class="card-img-top" alt="...">
+            <img src="{{ asset($gudang->gambar)  }}" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">{{ $gudang->nama }}</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p class="card-text">gudang ini memiliki {{ $gudang->total_ruangan }} ruangan dan dengan suhu rata rata {{ $gudang->suhu }}.</p>
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">Lokasi : <p>{{ $gudang->lokasi }}</p></li>
-            <li class="list-group-item">Harga : <p>{{ $gudang->harga_sewa }}</p></li>
+            <li class="list-group-item">Harga : <p>Rp. {{ $gudang->harga_sewa }}</p></li>
             <li class="list-group-item">Luas : <p>{{ $gudang->luas }}</p></li>
           </ul>
           <div class="card-body">

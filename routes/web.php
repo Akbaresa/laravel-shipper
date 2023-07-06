@@ -8,7 +8,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegistrasiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VerificationController;
-use App\Models\gudang_bersama;
+use App\Models\Sewa;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,9 +64,10 @@ Route::get('/tipe-gudang-khusus/{TipeGudang:slug}', [GudangKhususController::cla
 Route::get('/tipe-gudang-khusus/{gudangKhusus:slug}/{TipeGudang:slug}', [GudangKhususController::class , 'index'])->name('tipe-gudang.sewa');
 
 Route::get('/tipe-gudang-khusus/{gudangKhusus:slug}/{TipeGudang:slug}/sewa', [GudangKhususController::class , 'show'])->name('tipe-gudang.sewa-gudang');
+Route::post('/tipe-gudang-khusus/{gudangKhusus:slug}/{TipeGudang:slug}/sewa', [GudangKhususController::class , 'store'])->name('tipe-gudang.store');
+Route::get('/tipe-gudang-khusus/{gudangKhusus:slug}/{TipeGudang:slug}/invoice', [GudangKhususController::class , 'invoice'])->name('tipe-gudang.invoice');
 
 
-Route::post('/gudang-khusus/sewa', [GudangKhususController::class , 'store'])->name('gudang-khusus.store');
 Route::get('/gudang-khusus/sewa/cetak', [GudangKhususController::class , 'sewa'])->name('gudang-khusus.sewa');
 Route::get('/gudang-khusus/{id}/cetakKontrak', [GudangKhususController::class , 'cetak'])->middleware('auth')->name('gudang-khusus.cetak');
 // Route::get('/pembayaran/{id}/validasi', [PaymentController::class, 'validatePayment']);
@@ -76,4 +77,4 @@ Route::get('/gudang-bersama' , [GudangBersamaController::class , 'index'])->name
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/try', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/invoice/{idHash}',[GudangKhususController::class, 'invoice']);

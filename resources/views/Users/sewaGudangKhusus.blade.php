@@ -1,7 +1,7 @@
 @extends('layouts.main_nav')
 @section('content')
 
-    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url({{ asset('images/gudang_khusus_3.jpg') }});" data-aos="fade">
+    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url({{ asset($gks->gambar) }});" data-aos="fade">
         <div class="container">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-5 mx-auto mt-lg-5 text-center">
@@ -20,9 +20,10 @@
           <div class="row d-grid justify-content-end">
             <div class="col-lg-6">
               <div class=" align-items-center justify-content-center mx-auto">
+                
                 <h4 class="mt-1 mb-90 pb-1 text-center">Sewa</h4>
 
-              <form action="{{ route('gudang-khusus.store') }}" method="post"> 
+              <form action="{{ route('tipe-gudang.store', ['TipeGudang' =>$slug  , 'gudangKhusus' => $id ]) }}" method="post"> 
                 @csrf
                 <div class="form-outline mb-3">
                   <input type="text" id="form2Example11" name="nama_toko" class="form-control @error('nama_toko')is-invalid  @enderror " value="{{ old('nama_toko') }}"
@@ -93,8 +94,10 @@
 
                 <input type="hidden" value="{{ $gks->id }}" name="gk_id">
                 <input type="hidden" value="{{ Auth::user()->id}}" name="user_id">
+                <input type="hidden" value="{{$slug}}" name="slug">
                 <div class="d-flex align-items-center justify-content-between  pb-4">
                   <button type="submit" class="btn btn-outline-danger w-100">SEWA</button>
+
                 </div>
 
               </form>

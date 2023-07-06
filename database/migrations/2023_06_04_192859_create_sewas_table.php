@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sewas', function (Blueprint $table) {
-            $table->id()->startingValue(20);
+            $table->id()->startingValue(50);
             $table->foreignId('user_id');
             $table->foreignId('gk_id')->nullable();
             $table->string('nama_toko');

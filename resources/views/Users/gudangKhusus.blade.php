@@ -1,7 +1,7 @@
 @extends('layouts.main_nav')
 @section('content')
 
-    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(images/gudang_khusus_3.jpg);" data-aos="fade">
+    <div class="site-blocks-cover inner-page-cover overlay" style="background-image: url({{ asset($gudang->gambar) }});" data-aos="fade">
         <div class="container">
           <div class="row align-items-center justify-content-center">
             <div class="col-md-5 mx-auto mt-lg-5 text-center">
@@ -36,7 +36,7 @@
                 </p>
                 <p class="mb-4">Selain itu,  memudahkan aksesibilitas ke pusat bisnis dan pelabuhan terdekat. Anda dapat dengan mudah mengatur pengiriman dan pengambilan barang dengan cepat dan efisien.</p>
                 @auth
-                <p><a href="{{ route('tipe-gudang.sewa-gudang', ['TipeGudang' =>$slug  , 'gudangKhusus' => $gudang->slug] ) }}" class="btn btn-primary">Sewa Gedung</a></p>
+                <p><a href="{{ route('tipe-gudang.store', ['TipeGudang' =>$slug  , 'gudangKhusus' => $gudang->slug] ) }}" class="btn btn-primary">Sewa Gudang</a></p>
                 @else    
                 <p><a href="/login" class="btn btn-primary">Sewa Gedung</a></p>
                 @endauth
