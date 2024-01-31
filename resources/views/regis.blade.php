@@ -21,7 +21,7 @@
                             placeholder="Nama" />
                             @error('nama') 
                             <p class="invalid-feedback">
-                               {{ $message}}
+                                {{ $message}}
                             </p>
                             @enderror
                         </div>

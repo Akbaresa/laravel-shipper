@@ -62,7 +62,7 @@ class GudangKhususController extends Controller
         $gk_id = $request->gk_id;
         $gudang = gudangKhusus::where('id', $gk_id)->first();
         
-       $tipeGudang = $request->slug;
+        $tipeGudang = $request->slug;
         \Midtrans\Config::$serverKey = config('Midtrans.server_key');
         \Midtrans\Config::$isProduction = false;
         \Midtrans\Config::$isSanitized = true;
